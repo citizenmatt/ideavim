@@ -40,7 +40,7 @@ class SearchEntryFwdAction : MotionActionHandler.ForEachCaret() {
                          rawCount: Int,
                          argument: Argument?): Int {
     if (argument == null) return -1
-    return VimPlugin.getSearch().search(editor, caret, argument.string, count, enumSetOf(CommandFlags.FLAG_SEARCH_FWD), false)
+    return VimPlugin.getSearch().search(editor, caret, argument.string, count, enumSetOf(CommandFlags.FLAG_SEARCH_FWD))
   }
 
   override val motionType: MotionType = MotionType.EXCLUSIVE
