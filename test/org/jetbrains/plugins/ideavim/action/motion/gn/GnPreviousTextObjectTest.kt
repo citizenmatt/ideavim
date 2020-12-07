@@ -51,7 +51,7 @@ class GnPreviousTextObjectTest : VimTestCase() {
   private fun doTestWithSearch(keys: List<KeyStroke>, before: String,
                                after: String) {
     configureByText(before)
-    VimPlugin.getSearch().search(myFixture.editor, "test", 1, noneOfEnum())
+    VimPlugin.getSearch().search(myFixture.editor, "test", myFixture.caretOffset, 1, noneOfEnum())
     typeText(keys)
     myFixture.checkResult(after)
     assertState(CommandState.Mode.COMMAND, CommandState.SubMode.NONE)

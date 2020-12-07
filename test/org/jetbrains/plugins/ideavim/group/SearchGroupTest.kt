@@ -1207,7 +1207,7 @@ class SearchGroupTest : VimTestCase() {
     val searchGroup = VimPlugin.getSearch()
     val ref = Ref.create(-1)
     RunnableHelper.runReadCommand(project, Runnable {
-      val n = searchGroup.search(editor, pattern, 1, EnumSet.of(CommandFlags.FLAG_SEARCH_FWD))
+      val n = searchGroup.search(editor, pattern, myFixture.caretOffset, 1, EnumSet.of(CommandFlags.FLAG_SEARCH_FWD))
       ref.set(n)
     }, null, null)
     return ref.get()
