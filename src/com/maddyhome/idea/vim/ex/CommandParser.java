@@ -162,7 +162,7 @@ public class CommandParser {
 
     if (handler == null) {
       final String message = MessageHelper.message(Msg.NOT_EX_CMD, command.getCommand());
-      throw new InvalidCommandException(message, cmd);
+      throw new InvalidCommandException(message, null);
     }
 
     if (handler.getArgFlags().getAccess() == CommandHandler.Access.WRITABLE && !editor.getDocument().isWritable()) {
