@@ -41,7 +41,7 @@ class SearchEntryFwdAction : MotionActionHandler.ForEachCaret() {
                          rawCount: Int,
                          argument: Argument?): Int {
     if (argument == null) return -1
-    return VimPlugin.getSearch().search(editor, argument.string, caret.offset, Direction.FORWARDS)
+    return VimPlugin.getSearch().processSearchCommand(editor, argument.string, caret.offset, Direction.FORWARDS)
   }
 
   override val motionType: MotionType = MotionType.EXCLUSIVE

@@ -1207,7 +1207,7 @@ class SearchGroupTest : VimTestCase() {
     val ref = Ref.create(-1)
     RunnableHelper.runReadCommand(project, Runnable {
       // Does not move the caret!
-      val n = searchGroup.search(editor, pattern, myFixture.caretOffset, Direction.FORWARDS)
+      val n = searchGroup.processSearchCommand(editor, pattern, myFixture.caretOffset, Direction.FORWARDS)
       ref.set(n)
     }, null, null)
     return ref.get()
