@@ -86,6 +86,7 @@ class SearchGroupTest : VimTestCase() {
                   |all rocks and lavender and tufted grass,
                """.trimMargin())
     assertEquals(-1, pos)
+    assertPluginErrorMessageContains("Pattern not found: (found)")
   }
 
   // VIM-528
