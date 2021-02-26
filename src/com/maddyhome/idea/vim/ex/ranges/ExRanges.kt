@@ -1,6 +1,6 @@
 /*
  * IdeaVim - Vim emulator for IDEs based on the IntelliJ platform
- * Copyright (C) 2003-2020 The IdeaVim authors
+ * Copyright (C) 2003-2021 The IdeaVim authors
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -144,7 +144,8 @@ class LineNumberRange : Range {
   }
 
   override fun getRangeLine(
-    editor: Editor, caret: Caret,
+    editor: Editor,
+    caret: Caret,
     lastZero: Boolean
   ): Int {
     line = if (line == LAST_LINE) EditorHelper.getLineCount(editor) - 1 else caret.logicalPosition.line
@@ -180,7 +181,6 @@ class MarkRange(private val mark: Char, offset: Int, move: Boolean) : Range(offs
   override fun getRangeLine(editor: Editor, caret: Caret, lastZero: Boolean): Int = getRangeLine(editor, lastZero)
 
   override fun toString(): String = "MarkRange[mark=$mark, ${super.toString()}]"
-
 }
 
 /**

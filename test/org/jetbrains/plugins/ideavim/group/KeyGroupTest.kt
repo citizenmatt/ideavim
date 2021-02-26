@@ -1,6 +1,6 @@
 /*
  * IdeaVim - Vim emulator for IDEs based on the IntelliJ platform
- * Copyright (C) 2003-2020 The IdeaVim authors
+ * Copyright (C) 2003-2021 The IdeaVim authors
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,11 +37,11 @@ class KeyGroupTest : VimTestCase() {
 
     keyGroup.putKeyMapping(MappingMode.N, keys, owner, parseKeys("h"), false)
     typeText(keys)
-    myFixture.checkResult("I${c} found it in a legendary land")
+    myFixture.checkResult("I$c found it in a legendary land")
 
     keyGroup.removeKeyMapping(owner)
     typeText(keys)
-    myFixture.checkResult("I${c} found it in a legendary land")
+    myFixture.checkResult("I$c found it in a legendary land")
   }
 
   fun `test remove and add key mapping`() {
@@ -54,7 +54,7 @@ class KeyGroupTest : VimTestCase() {
 
     keyGroup.putKeyMapping(MappingMode.N, keys, owner, parseKeys("h"), false)
     typeText(keys)
-    myFixture.checkResult("I${c} found it in a legendary land")
+    myFixture.checkResult("I$c found it in a legendary land")
 
     repeat(10) {
       keyGroup.removeKeyMapping(owner)

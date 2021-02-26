@@ -1,6 +1,6 @@
 /*
  * IdeaVim - Vim emulator for IDEs based on the IntelliJ platform
- * Copyright (C) 2003-2020 The IdeaVim authors
+ * Copyright (C) 2003-2021 The IdeaVim authors
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -437,7 +437,6 @@ class VimMultipleCursorsExtensionTest : VimTestCase() {
     myFixture.checkResult(after)
   }
 
-
   fun testSkipSelectionSubstring() {
     val before = """qw${c}e
       |asdqweasd
@@ -523,14 +522,14 @@ class VimMultipleCursorsExtensionTest : VimTestCase() {
   ...${c}all rocks and lavender and tufted grass,
   ...all it was settled on some sodden sand
   ...all by the torrent of a mountain pass
-""".trimIndent().dotToTab()
+    """.trimIndent().dotToTab()
     val keys = listOf("vll", "<A-N>", "<A-N>")
     val after = """
   I found it in a legendary land
-  ...${s}al${c}l${se} rocks and lavender and tufted grass,
-  ...${s}al${c}l${se} it was settled on some sodden sand
-  ...${s}al${c}l${se} by the torrent of a mountain pass
-""".trimIndent().dotToTab()
+  ...${s}al${c}l$se rocks and lavender and tufted grass,
+  ...${s}al${c}l$se it was settled on some sodden sand
+  ...${s}al${c}l$se by the torrent of a mountain pass
+    """.trimIndent().dotToTab()
     doTest(keys, before, after, CommandState.Mode.VISUAL, CommandState.SubMode.VISUAL_CHARACTER)
   }
 

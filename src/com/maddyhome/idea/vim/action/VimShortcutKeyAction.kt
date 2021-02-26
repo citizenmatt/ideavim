@@ -1,6 +1,6 @@
 /*
  * IdeaVim - Vim emulator for IDEs based on the IntelliJ platform
- * Copyright (C) 2003-2020 The IdeaVim authors
+ * Copyright (C) 2003-2021 The IdeaVim authors
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -65,7 +65,7 @@ class VimShortcutKeyAction : AnAction(), DumbAware/*, LightEditCompatible*/ {
       }
       // Should we use HelperKt.getTopLevelEditor(editor) here, as we did in former EditorKeyHandler?
       try {
-        KeyHandler.getInstance().handleKey(editor, keyStroke, EditorDataContext(editor, e.dataContext))
+        KeyHandler.getInstance().handleKey(editor, keyStroke, EditorDataContext.init(editor, e.dataContext))
       } catch (ignored: ProcessCanceledException) {
         // Control-flow exceptions (like ProcessCanceledException) should never be logged
         // See {@link com.intellij.openapi.diagnostic.Logger.checkException}
@@ -129,9 +129,9 @@ class VimShortcutKeyAction : AnAction(), DumbAware/*, LightEditCompatible*/ {
   }
 
   private fun isEnabledForEscape(editor: Editor): Boolean {
-    return editor.isPrimaryEditor()
-      || EditorHelper.isFileEditor(editor) && !editor.inNormalMode
-      || OptionsManager.ideavimsupport.contains("dialog") && !editor.inNormalMode
+    return editor.isPrimaryEditor() ||
+      EditorHelper.isFileEditor(editor) && !editor.inNormalMode ||
+      OptionsManager.ideavimsupport.contains("dialog") && !editor.inNormalMode
   }
 
   private fun isShortcutConflict(keyStroke: KeyStroke): Boolean {

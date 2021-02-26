@@ -1,6 +1,6 @@
 /*
  * IdeaVim - Vim emulator for IDEs based on the IntelliJ platform
- * Copyright (C) 2003-2020 The IdeaVim authors
+ * Copyright (C) 2003-2021 The IdeaVim authors
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -70,7 +70,7 @@ object OptionsManager {
   val scrolloff = addOption(NumberOption(ScrollOffData.name, "so", 0))
   val selection = addOption(BoundStringOption("selection", "sel", "inclusive", arrayOf("old", "inclusive", "exclusive")))
   val selectmode = addOption(SelectModeOptionData.option)
-  val showcmd = addOption(ToggleOption("showcmd", "sc", true))  // Vim: Off by default on platforms with possibly slow tty. On by default elsewhere.
+  val showcmd = addOption(ToggleOption("showcmd", "sc", true)) // Vim: Off by default on platforms with possibly slow tty. On by default elsewhere.
   val showmode = addOption(ToggleOption("showmode", "smd", false))
   val sidescroll = addOption(NumberOption("sidescroll", "ss", 0))
   val sidescrolloff = addOption(NumberOption("sidescrolloff", "siso", 0))
@@ -89,6 +89,12 @@ object OptionsManager {
   val ideastrictmode = addOption(ToggleOption("ideastrictmode", "ideastrictmode", false))
   val ideawrite = addOption(BoundStringOption("ideawrite", "ideawrite", IdeaWriteData.all, IdeaWriteData.allValues))
   val ideavimsupport = addOption(BoundListOption("ideavimsupport", "ideavimsupport", arrayOf("dialog"), arrayOf("dialog", "singleline", "dialoglegacy")))
+
+  // TODO The default value if 1000, but we can't increase it because of terrible performance of our mappings
+  val maxmapdepth = addOption(NumberOption("maxmapdepth", "mmd", 20))
+
+  // This should be removed in the next versions
+  val ideacopypreprocess = addOption(ToggleOption("ideacopypreprocess", "ideacopypreprocess", false))
 
   fun isSet(name: String): Boolean {
     val option = getOption(name)
@@ -262,7 +268,7 @@ object OptionsManager {
                 }
               } else {
                 error = Msg.e_invarg
-              }// boolean option - no good
+              } // boolean option - no good
             } else {
               error = Msg.unkopt
             }
@@ -474,7 +480,6 @@ object IdeaRefactorMode {
 
   fun keepMode(): Boolean = OptionsManager.idearefactormode.value == keep
   fun selectMode(): Boolean = OptionsManager.idearefactormode.value == select
-  fun visualMode(): Boolean = OptionsManager.idearefactormode.value == visual
 
   fun correctSelection(editor: Editor) {
     val action: () -> Unit = {

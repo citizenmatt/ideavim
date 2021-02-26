@@ -1,6 +1,6 @@
 /*
  * IdeaVim - Vim emulator for IDEs based on the IntelliJ platform
- * Copyright (C) 2003-2020 The IdeaVim authors
+ * Copyright (C) 2003-2021 The IdeaVim authors
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,7 +21,6 @@ package org.jetbrains.plugins.ideavim.action.scroll
 import com.maddyhome.idea.vim.VimPlugin
 import com.maddyhome.idea.vim.helper.StringHelper.parseKeys
 import com.maddyhome.idea.vim.option.OptionsManager
-import junit.framework.Assert
 import org.jetbrains.plugins.ideavim.VimTestCase
 
 /*
@@ -155,7 +154,7 @@ class ScrollPageUpActionTest : VimTestCase() {
     configureByPages(5)
     setPositionAndScroll(0, 25)
     typeText(parseKeys("<C-B>"))
-    Assert.assertTrue(VimPlugin.isError())
+    assertTrue(VimPlugin.isError())
   }
 
   fun `test scroll page up on second page moves cursor to previous top`() {

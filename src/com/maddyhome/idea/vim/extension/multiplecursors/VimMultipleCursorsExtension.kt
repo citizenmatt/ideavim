@@ -1,6 +1,6 @@
 /*
  * IdeaVim - Vim emulator for IDEs based on the IntelliJ platform
- * Copyright (C) 2003-2020 The IdeaVim authors
+ * Copyright (C) 2003-2021 The IdeaVim authors
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ import com.maddyhome.idea.vim.command.MappingMode
 import com.maddyhome.idea.vim.common.TextRange
 import com.maddyhome.idea.vim.extension.VimExtension
 import com.maddyhome.idea.vim.extension.VimExtensionFacade.putExtensionHandlerMapping
-import com.maddyhome.idea.vim.extension.VimExtensionFacade.putKeyMapping
+import com.maddyhome.idea.vim.extension.VimExtensionFacade.putKeyMappingIfMissing
 import com.maddyhome.idea.vim.extension.VimExtensionHandler
 import com.maddyhome.idea.vim.group.MotionGroup
 import com.maddyhome.idea.vim.group.visual.vimSetSelection
@@ -97,10 +97,10 @@ class VimMultipleCursorsExtension : VimExtension {
     putExtensionHandlerMapping(MappingMode.X, parseKeys(SKIP_OCCURRENCE), owner, SkipOccurrenceHandler(), false)
     putExtensionHandlerMapping(MappingMode.X, parseKeys(REMOVE_OCCURRENCE), owner, RemoveOccurrenceHandler(), false)
 
-    putKeyMapping(MappingMode.NXO, parseKeys("<A-n>"), owner, parseKeys(NEXT_WHOLE_OCCURRENCE), true)
-    putKeyMapping(MappingMode.NXO, parseKeys("g<A-n>"), owner, parseKeys(NEXT_OCCURRENCE), true)
-    putKeyMapping(MappingMode.X, parseKeys("<A-x>"), owner, parseKeys(SKIP_OCCURRENCE), true)
-    putKeyMapping(MappingMode.X, parseKeys("<A-p>"), owner, parseKeys(REMOVE_OCCURRENCE), true)
+    putKeyMappingIfMissing(MappingMode.NXO, parseKeys("<A-n>"), owner, parseKeys(NEXT_WHOLE_OCCURRENCE), true)
+    putKeyMappingIfMissing(MappingMode.NXO, parseKeys("g<A-n>"), owner, parseKeys(NEXT_OCCURRENCE), true)
+    putKeyMappingIfMissing(MappingMode.X, parseKeys("<A-x>"), owner, parseKeys(SKIP_OCCURRENCE), true)
+    putKeyMappingIfMissing(MappingMode.X, parseKeys("<A-p>"), owner, parseKeys(REMOVE_OCCURRENCE), true)
   }
 
   abstract class WriteActionHandler : VimExtensionHandler {

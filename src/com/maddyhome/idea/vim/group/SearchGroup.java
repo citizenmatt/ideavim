@@ -1,6 +1,6 @@
 /*
  * IdeaVim - Vim emulator for IDEs based on the IntelliJ platform
- * Copyright (C) 2003-2020 The IdeaVim authors
+ * Copyright (C) 2003-2021 The IdeaVim authors
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -890,7 +890,7 @@ public class SearchGroup implements PersistentStateComponent<Element> {
     else {
       // XXX: The Ex entry panel is used only for UI here, its logic might be inappropriate for this method
       final ExEntryPanel exEntryPanel = ExEntryPanel.getInstanceWithoutShortcuts();
-      exEntryPanel.activate(editor, new EditorDataContext(editor, null), MessageHelper.message("replace.with.0", match), "", 1);
+      exEntryPanel.activate(editor, EditorDataContext.init(editor, null), MessageHelper.message("replace.with.0", match), "", 1);
       MotionGroup.moveCaret(editor, caret, startoff);
       ModalEntry.INSTANCE.activate(keyStrokeProcessor);
       exEntryPanel.deactivate(true, false);

@@ -4,6 +4,8 @@ import jetbrains.buildServer.configs.kotlin.v2019_2.BuildType
 import jetbrains.buildServer.configs.kotlin.v2019_2.CheckoutMode
 import jetbrains.buildServer.configs.kotlin.v2019_2.DslContext
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.qodana
+import jetbrains.buildServer.configs.kotlin.v2019_2.failureConditions.BuildFailureOnMetric
+import jetbrains.buildServer.configs.kotlin.v2019_2.failureConditions.failOnMetricChange
 import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.vcs
 
 object Qodana : BuildType({
@@ -17,7 +19,7 @@ object Qodana : BuildType({
   vcs {
     root(DslContext.settingsRoot)
 
-    checkoutMode = CheckoutMode.ON_SERVER
+    checkoutMode = CheckoutMode.AUTO
   }
 
   steps {
@@ -32,8 +34,17 @@ object Qodana : BuildType({
 
   triggers {
     vcs {
-      enabled = false
       branchFilter = ""
+    }
+  }
+
+  failureConditions {
+    failOnMetricChange {
+      threshold = 0
+      units = BuildFailureOnMetric.MetricUnit.DEFAULT_UNIT
+      comparison = BuildFailureOnMetric.MetricComparison.MORE
+      compareTo = value()
+      param("metricKey", "QodanaProblemsTotal")
     }
   }
 

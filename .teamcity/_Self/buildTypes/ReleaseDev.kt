@@ -6,6 +6,8 @@ import jetbrains.buildServer.configs.kotlin.v2019_2.BuildType
 import jetbrains.buildServer.configs.kotlin.v2019_2.CheckoutMode
 import jetbrains.buildServer.configs.kotlin.v2019_2.DslContext
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.gradle
+import jetbrains.buildServer.configs.kotlin.v2019_2.failureConditions.BuildFailureOnMetric
+import jetbrains.buildServer.configs.kotlin.v2019_2.failureConditions.failOnMetricChange
 import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.schedule
 
 object ReleaseDev : BuildType({
@@ -31,7 +33,7 @@ object ReleaseDev : BuildType({
   vcs {
     root(DslContext.settingsRoot)
 
-    checkoutMode = CheckoutMode.ON_SERVER
+    checkoutMode = CheckoutMode.AUTO
   }
 
   steps {
@@ -47,9 +49,21 @@ object ReleaseDev : BuildType({
     schedule {
       enabled = true
       schedulingPolicy = daily {
-        hour = 22
+        hour = 2
       }
       branchFilter = ""
+    }
+  }
+
+  failureConditions {
+    failOnMetricChange {
+      metric = BuildFailureOnMetric.MetricType.ARTIFACT_SIZE
+      threshold = 5
+      units = BuildFailureOnMetric.MetricUnit.PERCENTS
+      comparison = BuildFailureOnMetric.MetricComparison.DIFF
+      compareTo = build {
+        buildRule = lastSuccessful()
+      }
     }
   }
 })

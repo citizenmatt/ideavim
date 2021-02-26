@@ -1,6 +1,6 @@
 /*
  * IdeaVim - Vim emulator for IDEs based on the IntelliJ platform
- * Copyright (C) 2003-2020 The IdeaVim authors
+ * Copyright (C) 2003-2021 The IdeaVim authors
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -174,7 +174,13 @@ class VimSurroundExtensionTest : VimTestCase() {
                   if "myFunction(condition)" { }
                     """
 
-    doTest(listOf("ysiwf", "myFunction<CR>", "j", "."), before, after, CommandState.Mode.COMMAND, CommandState.SubMode.NONE)
+    doTest(
+      listOf("ysiwf", "myFunction<CR>", "j", "."),
+      before,
+      after,
+      CommandState.Mode.COMMAND,
+      CommandState.SubMode.NONE
+    )
   }
 
   @TestWithoutNeovim(SkipNeovimReason.PLUGIN)
@@ -202,8 +208,10 @@ class VimSurroundExtensionTest : VimTestCase() {
     assertMode(CommandState.Mode.COMMAND)
     doTest("veS)", before, after, CommandState.Mode.COMMAND, CommandState.SubMode.NONE)
     assertMode(CommandState.Mode.COMMAND)
-    doTest("veS(", before,
-      "if ( condition ) {\n" + "}\n", CommandState.Mode.COMMAND, CommandState.SubMode.NONE)
+    doTest(
+      "veS(", before,
+      "if ( condition ) {\n" + "}\n", CommandState.Mode.COMMAND, CommandState.SubMode.NONE
+    )
     assertMode(CommandState.Mode.COMMAND)
   }
 
@@ -349,7 +357,8 @@ class VimSurroundExtensionTest : VimTestCase() {
     doTest(listOf("csbrE."), before, after, CommandState.Mode.COMMAND, CommandState.SubMode.NONE)
   }
 
-  @VimBehaviorDiffers("""
+  @VimBehaviorDiffers(
+    """
       <h1>Title</h1>
       
       <p>
@@ -357,25 +366,32 @@ class VimSurroundExtensionTest : VimTestCase() {
       </p>
       
       <p>Some text</p>
-  """)
+  """
+  )
   @TestWithoutNeovim(SkipNeovimReason.PLUGIN)
   fun `test wrap with tag full line`() {
-    doTest(listOf("VS\\<p>"), """
+    doTest(
+      listOf("VS\\<p>"),
+      """
       <h1>Title</h1>
       
       Sur${c}roundThis
       
       <p>Some text</p>
-    """.trimIndent(), """
+      """.trimIndent(),
+      """
       <h1>Title</h1>
       
       <p>SurroundThis
       </p>
       <p>Some text</p>
-    """.trimIndent(), CommandState.Mode.COMMAND, CommandState.SubMode.NONE)
+      """.trimIndent(),
+      CommandState.Mode.COMMAND, CommandState.SubMode.NONE
+    )
   }
 
-  @VimBehaviorDiffers("""
+  @VimBehaviorDiffers(
+    """
       <div>
           <p>Some paragraph</p>
           <p>
@@ -383,39 +399,50 @@ class VimSurroundExtensionTest : VimTestCase() {
           </p>
           <p>Some other paragraph</p>
       </div>
-  """)
+  """
+  )
   @TestWithoutNeovim(SkipNeovimReason.PLUGIN)
   fun `test wrap with tag full line in middle`() {
-    doTest(listOf("VS\\<p>"), """
+    doTest(
+      listOf("VS\\<p>"),
+      """
       <div>
           <p>Some paragraph</p>
           Sur${c}round This
           <p>Some other paragraph</p>
       </div>
-      """.trimIndent(), """
+      """.trimIndent(),
+      """
       <div>
           <p>Some paragraph</p>
       <p>    Surround This
       </p>    <p>Some other paragraph</p>
       </div>
-    """.trimIndent(), CommandState.Mode.COMMAND, CommandState.SubMode.NONE)
+      """.trimIndent(),
+      CommandState.Mode.COMMAND, CommandState.SubMode.NONE
+    )
   }
 
   @TestWithoutNeovim(SkipNeovimReason.PLUGIN)
   fun `test wrap line with char selection`() {
-    doTest(listOf("vawES\\<p>"), """
+    doTest(
+      listOf("vawES\\<p>"),
+      """
       <div>
           <p>Some paragraph</p>
           Sur${c}round This
           <p>Some other paragraph</p>
       </div>
-      """.trimIndent(), """
+      """.trimIndent(),
+      """
       <div>
           <p>Some paragraph</p>
           <p>Surround This</p>
           <p>Some other paragraph</p>
       </div>
-    """.trimIndent(), CommandState.Mode.COMMAND, CommandState.SubMode.NONE)
+      """.trimIndent(),
+      CommandState.Mode.COMMAND, CommandState.SubMode.NONE
+    )
   }
 
   @TestWithoutNeovim(SkipNeovimReason.PLUGIN)
@@ -427,6 +454,17 @@ class VimSurroundExtensionTest : VimTestCase() {
 
     typeText(commandToKeys("noremap d <C-d>"))
     typeText(parseKeys("cs(]"))
+    myFixture.checkResult(after)
+  }
+
+  fun `test change new line`() {
+    val before = """
+      "\n"
+    """.trimIndent()
+    configureByText(before)
+
+    typeText(parseKeys("cs\"'"))
+    val after = """'\n'"""
     myFixture.checkResult(after)
   }
 }

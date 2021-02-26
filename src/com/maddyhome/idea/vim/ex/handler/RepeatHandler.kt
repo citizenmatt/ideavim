@@ -1,6 +1,6 @@
 /*
  * IdeaVim - Vim emulator for IDEs based on the IntelliJ platform
- * Copyright (C) 2003-2020 The IdeaVim authors
+ * Copyright (C) 2003-2021 The IdeaVim authors
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -51,13 +51,13 @@ class RepeatHandler : CommandHandler.ForEachCaret() {
     )
 
     if (arg == ':') {
-      return CommandParser.getInstance().processLastCommand(editor, context, 1)
+      return CommandParser.processLastCommand(editor, context, 1)
     }
 
     val reg = VimPlugin.getRegister().getPlaybackRegister(arg) ?: return false
     val text = reg.text ?: return false
 
-    CommandParser.getInstance().processCommand(editor, context, text, 1)
+    CommandParser.processCommand(editor, context, text, 1)
     return true
   }
 }

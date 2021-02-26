@@ -1,6 +1,6 @@
 /*
  * IdeaVim - Vim emulator for IDEs based on the IntelliJ platform
- * Copyright (C) 2003-2020 The IdeaVim authors
+ * Copyright (C) 2003-2021 The IdeaVim authors
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -236,7 +236,13 @@ public class VimPlugin implements PersistentStateComponent<Element>, Disposable 
     ideavimrcRegistered = true;
 
     if (!ApplicationManager.getApplication().isUnitTestMode()) {
-      executeIdeaVimRc();
+      try {
+        VimScriptParser.INSTANCE.setExecutingVimScript(true);
+        executeIdeaVimRc();
+      }
+      finally {
+        VimScriptParser.INSTANCE.setExecutingVimScript(false);
+      }
     }
   }
 
@@ -351,7 +357,7 @@ public class VimPlugin implements PersistentStateComponent<Element>, Disposable 
     RegisterActions.registerActions();
 
     // Register ex handlers
-    CommandParser.getInstance().registerHandlers();
+    CommandParser.INSTANCE.registerHandlers();
 
     // Register extensions
     VimExtensionRegistrar.registerExtensions();
@@ -359,14 +365,15 @@ public class VimPlugin implements PersistentStateComponent<Element>, Disposable 
     // Execute ~/.ideavimrc
     registerIdeavimrc();
 
+    // Initialize extensions
+    VimExtensionRegistrar.enableDelayedExtensions();
+
     // Turing on should be performed after all commands registration
     getSearch().turnOn();
     VimListenerManager.INSTANCE.turnOn();
   }
 
   private void turnOffPlugin() {
-    KeyHandler.getInstance().fullReset(null);
-
     SearchGroup searchGroup = getSearchIfCreated();
     if (searchGroup != null) {
       searchGroup.turnOff();
@@ -378,7 +385,7 @@ public class VimPlugin implements PersistentStateComponent<Element>, Disposable 
     RegisterActions.unregisterActions();
 
     // Unregister ex handlers
-    CommandParser.getInstance().unregisterHandlers();
+    CommandParser.INSTANCE.unregisterHandlers();
   }
 
   private boolean stateUpdated = false;

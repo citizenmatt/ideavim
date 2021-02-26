@@ -1,6 +1,6 @@
 /*
  * IdeaVim - Vim emulator for IDEs based on the IntelliJ platform
- * Copyright (C) 2003-2020 The IdeaVim authors
+ * Copyright (C) 2003-2021 The IdeaVim authors
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -56,6 +56,7 @@ object VimRcFileState {
   private var modificationStamp = 0L
 
   // This is a pattern used in ideavimrc parsing for a long time. It removes all trailing/leading spaced and blank lines
+  @Suppress("unused")
   private val EOL_SPLIT_PATTERN = Pattern.compile(" *(\r\n|\n)+ *")
 
   var filePath: String? = null
@@ -131,12 +132,14 @@ class ReloadVimRc : DumbAwareAction() {
 class ReloadFloatingToolbar : AbstractFloatingToolbarProvider(ACTION_GROUP) {
   override val autoHideable: Boolean = false
 
+  // [VERSION UPDATE] 212+
+  @Suppress("OverridingDeprecatedMember")
   override val priority: Int = 0
 
-  override fun register(toolbar: FloatingToolbarComponent, parentDisposable: Disposable) {
-    super.register(toolbar, parentDisposable)
+  override fun register(component: FloatingToolbarComponent, parentDisposable: Disposable) {
+    super.register(component, parentDisposable)
     VimRcFileState.whenFileStateSaved {
-      toolbar.scheduleShow()
+      component.scheduleShow()
     }
   }
 }

@@ -1,6 +1,6 @@
 /*
  * IdeaVim - Vim emulator for IDEs based on the IntelliJ platform
- * Copyright (C) 2003-2020 The IdeaVim authors
+ * Copyright (C) 2003-2021 The IdeaVim authors
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -55,9 +55,9 @@ internal object NeovimTesting {
 
   private fun neovimEnabled(test: VimTestCase): Boolean {
     val method = test.javaClass.getMethod(test.name)
-    return !method.isAnnotationPresent(VimBehaviorDiffers::class.java)
-      && !method.isAnnotationPresent(TestWithoutNeovim::class.java)
-      && System.getProperty("ideavim.nvim.test", "false")!!.toBoolean()
+    return !method.isAnnotationPresent(VimBehaviorDiffers::class.java) &&
+      !method.isAnnotationPresent(TestWithoutNeovim::class.java) &&
+      System.getProperty("ideavim.nvim.test", "false")!!.toBoolean()
   }
 
   fun setupEditor(editor: Editor, test: VimTestCase) {
@@ -146,6 +146,7 @@ annotation class TestWithoutNeovim(val reason: SkipNeovimReason, val description
 enum class SkipNeovimReason {
   PLUGIN,
   MULTICARET,
+  @Suppress("unused")
   INLAYS,
   OPTION,
   UNCLEAR,

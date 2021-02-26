@@ -1,6 +1,6 @@
 /*
  * IdeaVim - Vim emulator for IDEs based on the IntelliJ platform
- * Copyright (C) 2003-2020 The IdeaVim authors
+ * Copyright (C) 2003-2021 The IdeaVim authors
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,14 +34,17 @@ class SearchEntryFwdAction : MotionActionHandler.ForEachCaret() {
 
   override val flags: EnumSet<CommandFlags> = enumSetOf(CommandFlags.FLAG_SAVE_JUMP)
 
-  override fun getOffset(editor: Editor,
-                         caret: Caret,
-                         context: DataContext,
-                         count: Int,
-                         rawCount: Int,
-                         argument: Argument?): Int {
+  override fun getOffset(
+    editor: Editor,
+    caret: Caret,
+    context: DataContext,
+    count: Int,
+    rawCount: Int,
+    argument: Argument?
+  ): Int {
     if (argument == null) return -1
-    return VimPlugin.getSearch().processSearchCommand(editor, argument.string, caret.offset, Direction.FORWARDS)
+    return VimPlugin.getSearch()
+      .processSearchCommand(editor, argument.string, caret.offset, Direction.FORWARDS)
   }
 
   override val motionType: MotionType = MotionType.EXCLUSIVE

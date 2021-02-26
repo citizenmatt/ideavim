@@ -1,6 +1,6 @@
 /*
  * IdeaVim - Vim emulator for IDEs based on the IntelliJ platform
- * Copyright (C) 2003-2020 The IdeaVim authors
+ * Copyright (C) 2003-2021 The IdeaVim authors
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,7 +22,6 @@ import com.maddyhome.idea.vim.VimPlugin
 import com.maddyhome.idea.vim.helper.StringHelper.parseKeys
 import com.maddyhome.idea.vim.helper.VimBehaviorDiffers
 import com.maddyhome.idea.vim.option.OptionsManager
-import junit.framework.Assert
 import org.jetbrains.plugins.ideavim.VimTestCase
 
 /*
@@ -75,7 +74,7 @@ class ScrollHalfPageUpActionTest : VimTestCase() {
     configureByPages(5)
     setPositionAndScroll(50, 53)
     typeText(parseKeys("10<C-U>"))
-    Assert.assertEquals(OptionsManager.scroll.value(), 10)
+    assertEquals(OptionsManager.scroll.value(), 10)
   }
 
   fun `test scroll upwards uses scroll option`() {
@@ -104,4 +103,3 @@ class ScrollHalfPageUpActionTest : VimTestCase() {
     assertVisibleArea(33, 67)
   }
 }
-
