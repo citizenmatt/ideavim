@@ -22,7 +22,7 @@ buildscript {
 plugins {
     antlr
     java
-    kotlin("jvm") version "1.5.0"
+    kotlin("jvm") version "1.5.31"
 
     id("org.jetbrains.intellij") version "1.2.1"
     id("org.jetbrains.changelog") version "1.3.1"
