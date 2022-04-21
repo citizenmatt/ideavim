@@ -67,7 +67,7 @@ dependencies {
     testImplementation("com.intellij.remoterobot:remote-fixtures:$remoteRobotVersion")
     testImplementation("com.automation-remarks:video-recorder-junit:2.0")
     runtimeOnly("org.antlr:antlr4-runtime:4.10.1")
-    antlr("org.antlr:antlr4:4.9.3")
+    antlr("org.antlr:antlr4:4.10.1")
 
     implementation(project(":vim-engine"))
 }
