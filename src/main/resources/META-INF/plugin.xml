@@ -156,5 +156,7 @@
     </group>
 
     <action id="VimFindActionIdAction" class="com.maddyhome.idea.vim.listener.FindActionIdAction"/>
+
+    <action id="VimShowHoverInfoTooltip" class="com.maddyhome.idea.vim.action.ShowInfoTooltipAction" />
   </actions>
 </idea-plugin>
