@@ -14,11 +14,11 @@ import com.maddyhome.idea.vim.api.VimCaret
 import com.maddyhome.idea.vim.api.VimEditor
 import com.maddyhome.idea.vim.api.VimScrollGroup
 import com.maddyhome.idea.vim.api.getVisualLineCount
-import com.maddyhome.idea.vim.api.globalOptions
 import com.maddyhome.idea.vim.api.injector
 import com.maddyhome.idea.vim.api.normalizeLine
 import com.maddyhome.idea.vim.api.normalizeVisualColumn
 import com.maddyhome.idea.vim.api.normalizeVisualLine
+import com.maddyhome.idea.vim.api.options
 import com.maddyhome.idea.vim.api.visualLineToBufferLine
 import com.maddyhome.idea.vim.helper.EditorHelper
 import com.maddyhome.idea.vim.helper.ScrollViewHelper
@@ -284,7 +284,7 @@ internal class ScrollGroup : VimScrollGroup {
     private fun getScrollScreenTargetCaretVisualLine(editor: Editor, rawCount: Int, down: Boolean): Int {
       val visibleArea = EditorHelper.getVisibleArea(editor)
       val caretVisualLine = editor.caretModel.visualPosition.line
-      val scrollOption = getScrollOption(rawCount)
+      val scrollOption = getScrollOption(editor.vim, rawCount)
       val targetCaretVisualLine = if (scrollOption == 0) {
         // Scroll up/down half window size by default. We can't use line count here because of block inlays
         val offset = if (down) visibleArea.height / 2 else editor.lineHeight - visibleArea.height / 2
@@ -295,9 +295,9 @@ internal class ScrollGroup : VimScrollGroup {
       return editor.vim.normalizeVisualLine(targetCaretVisualLine)
     }
 
-    private fun getScrollOption(rawCount: Int): Int {
+    private fun getScrollOption(editor: VimEditor, rawCount: Int): Int {
       if (rawCount == 0) {
-        return injector.globalOptions().getIntValue(Options.scroll)
+        return injector.options(editor).scroll
       }
       // TODO: This should be reset whenever the window size changes
       injector.optionGroup.setOptionValue(Options.scroll, OptionScope.GLOBAL, VimInt(rawCount))
