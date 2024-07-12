@@ -154,6 +154,8 @@ public class EditorHelper {
    * @return The number of screen columns
    */
   public static int getApproximateScreenWidth(final @NotNull Editor editor) {
+    // Note that a fractional font width could give us a fractional number of columns - we truncate to return the
+    // approximate number of whole columns on the screen
     return (int)(getVisibleArea(editor).width / getPlainSpaceWidthFloat(editor));
   }
 

@@ -95,6 +95,7 @@ import org.junit.jupiter.api.assertThrows
 import java.awt.event.KeyEvent
 import java.util.*
 import javax.swing.KeyStroke
+import kotlin.math.ceil
 import kotlin.math.roundToInt
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
@@ -257,7 +258,10 @@ abstract class VimTestCase {
     get() = 35
 
   protected fun setEditorVisibleSize(width: Int, height: Int) {
-    val w = (width * EditorHelper.getPlainSpaceWidthFloat(fixture.editor)).roundToInt()
+    // Always round the pixel width up. A fractional font width could cause a fractional screen width, and truncating
+    // could set the width such that when we truncate while calculating approximate screen width, we end up with less
+    // columns than we set
+    val w = ceil(width * EditorHelper.getPlainSpaceWidthFloat(fixture.editor)).toInt()
     val h = height * fixture.editor.lineHeight
     EditorTestUtil.setEditorVisibleSizeInPixels(fixture.editor, w, h)
   }
